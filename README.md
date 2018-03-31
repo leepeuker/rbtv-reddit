@@ -1,5 +1,5 @@
 # rbtv-reddit
-A collection of reddit bots, used for the "www.rocketbeans.tv" subreddit
+A collection of reddit bots for www.reddit.com/r/rocketbeans
 
 TODO:
 
