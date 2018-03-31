@@ -22,7 +22,7 @@
     "newsBot": {
         "redditAccount": "accountName",
         "subreddit": "rocketbeans",
-        "updateInterval": 2000
+        "updateInterval": 300000
     },
 
     "dailyProgramBot": {

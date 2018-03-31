@@ -5,4 +5,5 @@ TODO:
 
 - Remove console logging and implement file logging
 - Error Handling
+- Adding installion and configuration instructions
 - Refactoring
