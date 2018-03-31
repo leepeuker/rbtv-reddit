@@ -1,0 +1,32 @@
+{
+    "redditAccounts": {
+
+        "accountName": {
+            "userAgent": "reddit-rbtv",
+            "clientId": "",
+            "clientSecret": "",
+            "username": "",
+            "password": ""
+        },
+
+        "accountName2": {
+            "userAgent": "reddit-rbtv",
+            "clientId": "",
+            "clientSecret": "",
+            "username": "",
+            "password": ""
+        }
+
+    },
+
+    "newsBot": {
+        "redditAccount": "accountName",
+        "subreddit": "rocketbeans",
+        "updateInterval": 2000
+    },
+
+    "dailyProgramBot": {
+        "redditAccount": "accountName",
+        "subreddit": "rocketbeans"
+    }
+}

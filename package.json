@@ -1,0 +1,24 @@
+{
+  "name": "rbtv-reddit",
+  "version": "1.0.0",
+  "description": "A collection of bots used for the rocketbeans.tv subreddit",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leepeuker/rbtv-reddit.git"
+  },
+  "author": "Lee Peuker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leepeuker/rbtv-reddit/issues"
+  },
+  "homepage": "https://github.com/leepeuker/rbtv-reddit#readme",
+  "dependencies": {
+    "config": "^1.30.0",
+    "moment": "^2.22.0",
+    "snoowrap": "^1.15.2"
+  }
+}
