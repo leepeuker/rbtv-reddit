@@ -1,22 +1,29 @@
-const config = require('config');
-const reddit = require('./reddit');
+const logger  = require('logger').createLogger('./logs/development.log');
+const reddit  = require('./reddit');
 const request = require('request');
-const moment = require('moment');
+const config  = require('config');
+const moment  = require('moment');
 
 let newsBot = config.get('newsBot');
 let dateLatestTopic = 0;
 
+// Set the log format
+logger.format = function(level, date, message) {
+    return '[' + moment().format('DD.MM.YYYY HH:mm:ss') + '] [' + level + '] - newsBot: ' + message;
+};
+
+// Start the bot
 let start = (redditUser) => {
-    console.log('Starting newsbot...')
+    logger.info('Bot started'); 
 
     reddit.auth(redditUser);
 
     request({
-        url: `https://leepeuker.de/test.json`,
+        url: newsBot.url,
         json: true
     }, (error, response, body) => {
         if (error || response.statusCode !== 200) {
-            console.log('Unable to connect to server.');
+            logger.error(`Unable to connect to server (${response.request.uri.href}).`);
         } else {
 
             let topics = body.topic_list.topics;
@@ -24,26 +31,22 @@ let start = (redditUser) => {
             for (i = 0; i < topics.length; i++) { 
 
                 if (moment(topics[i].created_at).isAfter(dateLatestTopic)) {
-
                     dateLatestTopic = topics[i].created_at;
                 } 
                 
                 if (topics[i].pinned === false) {
-
+                    logger.info(`Set date for latest topic: ${dateLatestTopic}`); 
                     break;
                 }
             }
-            
-            console.log(`NewsBot initialed date for latest topic: ${dateLatestTopic}`)
 
             setInterval(() => {
-
                 request({
-                    url: `https://leepeuker.de/test.json`,
+                    url: newsBot.url,
                     json: true
                 }, (error, response, body) => {
                     if (error || response.statusCode !== 200) {
-                        console.log('Unable to connect to server.');
+                        logger.error(`Unable to connect to server (${response.request.uri.href}).`);
                     } else {
 
                         let topics = body.topic_list.topics;
@@ -52,27 +55,27 @@ let start = (redditUser) => {
                         for (i = 0; i < topics.length; i++) { 
 
                             if (moment(topics[i].created_at).isAfter(dateLatestTopic)) {
-
                                 reddit.submitSelflink({
+                                    subreddit: newsBot.subreddit,
                                     title: topics[i].title,
                                     url: `https://forum.rocketbeans.tv/t/${topics[i].slug}/${topics[i].id}`
+                                }, submission => { 
+                                    logger.info('Created new topic: ' + submission.url); 
                                 });
             
                                 if (moment(topics[i].created_at).isAfter(newDateLatestTopic)) {
-
                                     newDateLatestTopic = topics[i].created_at;
                                 }
                             }
                         }
                         
-                        if (moment(dateLatestTopic).isAfter(newDateLatestTopic)) {
+                        if (moment(newDateLatestTopic).isAfter(dateLatestTopic)) {
                             dateLatestTopic = newDateLatestTopic;
                         } else {
-                            console.log('newsBot: No new topic.');
+                            logger.info('No new topics found.');
                         }
                     }
                 });
-
             }, newsBot.updateInterval)
         }
     });

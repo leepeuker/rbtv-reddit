@@ -1,29 +1,41 @@
-const config = require('config');
 const snoowrap = require('snoowrap');
+const config   = require('config');
 
-let redditUser = null;
+let reddit = null;
 
+// Create reddit object
 exports.auth = (redditAccount) => {
-    
-    let redditAccountData = config.get('redditAccounts.' + redditAccount);
+    let accountData = config.get('redditAccounts.' + redditAccount);
 
-    redditUser = new snoowrap({
-        userAgent: redditAccountData.userAgent,
-        clientId: redditAccountData.clientId,
-        clientSecret: redditAccountData.clientSecret,
-        username: redditAccountData.username,
-        password: redditAccountData.password
+    reddit = new snoowrap({
+        userAgent: accountData.userAgent,
+        clientId: accountData.clientId,
+        clientSecret: accountData.clientSecret,
+        username: accountData.username,
+        password: accountData.password
     });
 };
 
-exports.submitSelftext = (submission) => {
-    redditUser.getSubreddit('nativesys').submitSelfpost({title: submission.title, text: submission.body}).then((submission) => {
-        redditUser.getSubmission(submission).fetch().then((submission) => {console.log(`New Topic created: '${submission.title}', ${submission.url}`)});
+// Submit a new text post
+exports.submitSelftext = (data, callback) => {
+    reddit.getSubreddit(data.subreddit)
+    .submitSelfpost({ title: data.title, text: data.body })
+    .then(submissionTag => {
+        reddit.getSubmission(submissionTag).fetch()
+        .then(submission => {
+            callback(submission);
+        });
     });
-}
+};
 
-exports.submitSelflink = (submission) => {
-    redditUser.getSubreddit('nativesys').submitLink({title: submission.title, url: submission.url}).then((submission) => {
-        redditUser.getSubmission(submission).fetch().then((submission) => {console.log(`New Topic created: '${submission.title}', ${submission.url}`)});
+// Submit a new link
+exports.submitSelflink = (data, callback) => {
+    reddit.getSubreddit(data.subreddit)
+    .submitLink({title: data.title, url: data.url})
+    .then(submissionTag => {
+        reddit.getSubmission(submissionTag).fetch()
+        .then(submission => {
+            callback(submission);
+        });
     });
-}
+};

@@ -5,4 +5,3 @@ const newsBot = require('./app_modules/newsBot');
 // Start the bots
 dailyProgramBot.start(config.get('dailyProgramBot.redditAccount'));
 newsBot.start(config.get('newsBot.redditAccount'));
-

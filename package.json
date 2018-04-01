@@ -18,6 +18,7 @@
   "homepage": "https://github.com/leepeuker/rbtv-reddit#readme",
   "dependencies": {
     "config": "^1.30.0",
+    "logger": "0.0.1",
     "moment": "^2.22.0",
     "snoowrap": "^1.15.2"
   }

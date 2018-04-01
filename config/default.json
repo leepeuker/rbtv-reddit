@@ -22,11 +22,13 @@
     "newsBot": {
         "redditAccount": "accountName",
         "subreddit": "rocketbeans",
+        "url": "https://forum.rocketbeans.tv/c/news",
         "updateInterval": 300000
     },
 
     "dailyProgramBot": {
         "redditAccount": "accountName",
-        "subreddit": "rocketbeans"
+        "subreddit": "rocketbeans",
+        "url": "http://thegremium.org/~doc/rbtv/wopla/wopla.data.json"
     }
 }
