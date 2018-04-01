@@ -1,4 +1,4 @@
-const logger   = require('logger').createLogger('./logs/development.log');
+const logger   = require('logger').createLogger('./logs/main.log');
 const schedule = require('node-schedule');
 const reddit   = require('./reddit');
 const request  = require('request');

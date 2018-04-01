@@ -1,6 +1,6 @@
 
-const dailyProgramBot = require('./app_modules/dailyProgramBot');
-const newsBot         = require('./app_modules/newsBot');
+const dailyProgramBot = require('./src/dailyProgramBot');
+const newsBot         = require('./src/newsBot');
 const config          = require('config');
 
 // Start the bots
