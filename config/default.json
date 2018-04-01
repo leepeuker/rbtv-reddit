@@ -23,12 +23,13 @@
         "redditAccount": "accountName",
         "subreddit": "rocketbeans",
         "url": "https://forum.rocketbeans.tv/c/news",
-        "updateInterval": 300000
+        "schedule": "* * * * *"
     },
 
     "dailyProgramBot": {
         "redditAccount": "accountName",
         "subreddit": "rocketbeans",
-        "url": "http://thegremium.org/~doc/rbtv/wopla/wopla.data.json"
+        "url": "http://thegremium.org/~doc/rbtv/wopla/wopla.data.json",
+        "schedule": "1 0 * * *"
     }
 }

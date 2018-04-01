@@ -1,8 +1,9 @@
-const logger  = require('logger').createLogger('./logs/development.log');
-const reddit  = require('./reddit');
-const request = require('request');
-const config  = require('config');
-const moment  = require('moment');
+const logger   = require('logger').createLogger('./logs/development.log');
+const schedule = require('node-schedule');
+const reddit   = require('./reddit');
+const request  = require('request');
+const config   = require('config');
+const moment   = require('moment');
 
 let dailyProgramBot = config.get('dailyProgramBot');
 
@@ -12,34 +13,36 @@ logger.format = function(level, date, message) {
 };
 
 // Start the bot
-let start = (redditAccount) => {
+let start = (redditAccount, scheduleExpression) => {
     logger.info('Bot started'); 
 
     reddit.auth(redditAccount);
 
-    request({
-        url: dailyProgramBot.url,
-        json: true
-    }, (error, response, body) => {
-        if (error || response.statusCode !== 200) {
-            logger.error(`Unable to connect to server (${response.request.uri.href}).`); 
-        } else {
-
-            let date = moment().format('DD.MM.YYYY');
-            let time = moment().format('HH:mm:ss');
-            let weekDay = moment().isoWeekday() - 1;
-
-            let shows = body[0].days[weekDay].shows;
-            let showsString = showsToString(shows);
-
-            reddit.submitSelftext({
-                subreddit: dailyProgramBot.subreddit,
-                title: `[${date}] Diskussion zum Programm des Tages`,
-                body: `${showsString}\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
-            }, submission => { 
-                logger.info('Created new topic: ' + submission.url); 
-            });
-        }
+    schedule.scheduleJob(scheduleExpression, () => {
+        request({
+            url: dailyProgramBot.url,
+            json: true
+        }, (error, response, body) => {
+            if (error || response.statusCode !== 200) {
+                logger.error(`Unable to connect to server (${response.request.uri.href}).`); 
+            } else {
+    
+                let date = moment().format('DD.MM.YYYY');
+                let time = moment().format('HH:mm:ss');
+                let weekDay = moment().isoWeekday() - 1;
+    
+                let shows = body[0].days[weekDay].shows;
+                let showsString = showsToString(shows);
+    
+                reddit.submitSelftext({
+                    subreddit: dailyProgramBot.subreddit,
+                    title: `[${date}] Diskussion zum Programm des Tages`,
+                    body: `${showsString}\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
+                }, submission => { 
+                    logger.info('Created new topic: ' + submission.url); 
+                });
+            }
+        });
     });
 };
 

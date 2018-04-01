@@ -1,11 +1,11 @@
-const logger  = require('logger').createLogger('./logs/development.log');
-const reddit  = require('./reddit');
-const request = require('request');
-const config  = require('config');
-const moment  = require('moment');
+const logger   = require('logger').createLogger('./logs/development.log');
+const schedule = require('node-schedule');
+const reddit   = require('./reddit');
+const request  = require('request');
+const config   = require('config');
+const moment   = require('moment');
 
 let newsBot = config.get('newsBot');
-let dateLatestTopic = 0;
 
 // Set the log format
 logger.format = function(level, date, message) {
@@ -13,10 +13,11 @@ logger.format = function(level, date, message) {
 };
 
 // Start the bot
-let start = (redditUser) => {
+let start = (redditUser, scheduleExpression) => {
     logger.info('Bot started'); 
 
     reddit.auth(redditUser);
+    let dateLatestTopic = 0;
 
     request({
         url: newsBot.url,
@@ -40,7 +41,9 @@ let start = (redditUser) => {
                 }
             }
 
-            setInterval(() => {
+            console.log('hello1');
+            schedule.scheduleJob(scheduleExpression, () => {
+                console.log('hello2');
                 request({
                     url: newsBot.url,
                     json: true
@@ -76,7 +79,7 @@ let start = (redditUser) => {
                         }
                     }
                 });
-            }, newsBot.updateInterval)
+            });
         }
     });
 
