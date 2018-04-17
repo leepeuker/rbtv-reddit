@@ -27,7 +27,7 @@ let start = (redditAccount, scheduleExpression) => {
                 logger.error(`Unable to connect to server (${response.request.uri.href}).`); 
             } else {
     
-                let date = moment().format('DD.MM.YYYY');
+                let date = moment().format('DD.MM.YY');
                 let time = moment().format('HH:mm:ss');
                 let weekDay = moment().isoWeekday() - 1;
     
@@ -36,8 +36,8 @@ let start = (redditAccount, scheduleExpression) => {
     
                 reddit.submitSelftext({
                     subreddit: dailyProgramBot.subreddit,
-                    title: `[${date}] Diskussion zum Programm des Tages`,
-                    body: `${showsString}\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
+                    title: `[${date}] Diskussion zum Programm des Tages (mit Sendeplan)`,
+                    body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
                 }, submission => { 
                     logger.info('Created new topic: ' + submission.url); 
                 });
@@ -49,19 +49,21 @@ let start = (redditAccount, scheduleExpression) => {
 // Convert the shows from json to string
 let showsToString = (shows) => {
     let showsString = '';
+    let showGame = '';
 
     shows.forEach(show => {
 
         showsString += `${show.time} - `;
+        showGame += ` - ${show.game}`;
 
         if (show.isPremiere === true) {
-            showsString += `**${show.title}** (neu)`;
+            showsString += `**${show.title}${showGame}** (Neu)`;
 
         } else if (show.isLive === true) {
-            showsString += `**${show.title}** (live)`;
+            showsString += `**${show.title}${showGame}** (Live)`;
 
         } else {
-            showsString += `${show.title}`;
+            showsString += `*${show.title}${showGame}*`;
         }
 
         showsString += '\n\n';
