@@ -39,7 +39,9 @@ let start = (redditAccount, scheduleExpression) => {
                     title: `[${date}] Diskussion zum Programm des Tages (mit Sendeplan)`,
                     body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
                 }, submission => { 
-                    logger.info('Created new topic: ' + submission.url); 
+                    logger.info('Created new topic: ' + submission.url);
+                    // submission.sticky({num: 2});
+                    // submission.unsticky();
                 });
             }
         });
@@ -54,16 +56,19 @@ let showsToString = (shows) => {
     shows.forEach(show => {
 
         showsString += `${show.time} - `;
-        showGame += ` - ${show.game}`;
+
+        if(show.game !== '') {
+            show.game = ` - ${show.game}`;
+        }
 
         if (show.isPremiere === true) {
-            showsString += `**${show.title}${showGame}** (Neu)`;
+            showsString += `**${show.title}${show.game}** (Neu)`;
 
         } else if (show.isLive === true) {
-            showsString += `**${show.title}${showGame}** (Live)`;
+            showsString += `**${show.title}${show.game}** (Live)`;
 
         } else {
-            showsString += `*${show.title}${showGame}*`;
+            showsString += `*${show.title}${show.game}*`;
         }
 
         showsString += '\n\n';
