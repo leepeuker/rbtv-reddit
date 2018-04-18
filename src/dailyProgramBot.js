@@ -1,5 +1,5 @@
-const logger   = require('logger').createLogger('./logs/main.log');
 const schedule = require('node-schedule');
+const logger   = require('./logger').get();
 const reddit   = require('./reddit');
 const request  = require('request');
 const config   = require('config');
@@ -7,14 +7,10 @@ const moment   = require('moment');
 
 let dailyProgramBot = config.get('dailyProgramBot');
 
-// Set the log format
-logger.format = function(level, date, message) {
-    return '[' + moment().format('DD.MM.YYYY HH:mm:ss') + '] [' + level + '] - dailyProgramBot: ' + message;
-};
-
 // Start the bot
 let start = (redditAccount, scheduleExpression) => {
-    logger.info('Bot started'); 
+
+    logger.info('Bot started.');
 
     reddit.auth(redditAccount);
 

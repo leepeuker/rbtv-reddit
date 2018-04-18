@@ -1,4 +1,4 @@
-const logger   = require('logger').createLogger('./logs/main.log');
+const logger   = require('./logger').get();
 const schedule = require('node-schedule');
 const reddit   = require('./reddit');
 const request  = require('request');
@@ -6,11 +6,6 @@ const config   = require('config');
 const moment   = require('moment');
 
 let newsBot = config.get('newsBot');
-
-// Set the log format
-logger.format = function(level, date, message) {
-    return '[' + moment().format('DD.MM.YYYY HH:mm:ss') + '] [' + level + '] - newsBot: ' + message;
-};
 
 // Start the bot
 let start = (redditUser, scheduleExpression) => {
