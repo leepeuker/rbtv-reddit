@@ -57,6 +57,7 @@ let start = (redditUser, scheduleExpression) => {
                                     url: `https://forum.rocketbeans.tv/t/${topics[i].slug}/${topics[i].id}`
                                 }, submission => { 
                                     logger.info('Created new topic: ' + submission.url); 
+                                    submission.selectFlair({flair_template_id: 'f4acf132-c5ed-11e4-9500-22000b230151'});
                                 });
             
                                 if (moment(topics[i].created_at).isAfter(newDateLatestTopic)) {
