@@ -36,7 +36,7 @@ let start = (redditAccount, scheduleExpression) => {
                     body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
                 }, submission => { 
                     logger.info('Created new topic: ' + submission.url);
-                    // submission.sticky({num: 2});
+                    submission.sticky({num: 2});
                     // submission.unsticky();
                 });
             }
