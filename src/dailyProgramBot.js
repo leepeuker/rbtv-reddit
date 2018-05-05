@@ -22,13 +22,18 @@ let start = (redditAccount, scheduleExpression) => {
             if (error || response.statusCode !== 200) {
                 logger.error(`Unable to connect to server (${response.request.uri.href}).`); 
             } else {
-    
+
+                let showsString = '';
                 let date = moment().format('DD.MM.YY');
                 let time = moment().format('HH:mm:ss');
+                let calendarWeek = moment().isoWeek();
                 let weekDay = moment().isoWeekday() - 1;
     
-                let shows = body[0].days[weekDay].shows;
-                let showsString = showsToString(shows);
+                body.forEach((week) => {
+                    if (week.title == `Woche ${calendarWeek}`) {
+                        showsString = showsToString(week.days[weekDay].shows);
+                    }
+                });
     
                 reddit.submitSelftext({
                     subreddit: dailyProgramBot.subreddit,
@@ -37,7 +42,6 @@ let start = (redditAccount, scheduleExpression) => {
                 }, submission => { 
                     logger.info('Created new topic: ' + submission.url);
                     submission.sticky({num: 2});
-                    // submission.unsticky();
                 });
             }
         });
