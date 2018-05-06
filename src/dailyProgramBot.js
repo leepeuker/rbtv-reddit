@@ -35,14 +35,18 @@ let start = (redditAccount, scheduleExpression) => {
                     }
                 });
     
-                reddit.submitSelftext({
-                    subreddit: dailyProgramBot.subreddit,
-                    title: `[${date}] Diskussion zum Programm des Tages (mit Sendeplan)`,
-                    body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
-                }, submission => { 
-                    logger.info('Created new topic: ' + submission.url);
-                    submission.sticky({num: 2});
-                });
+                if (showsString != '') {
+                    reddit.submitSelftext({
+                        subreddit: dailyProgramBot.subreddit,
+                        title: `[${date}] Diskussion zum Programm des Tages (mit Sendeplan)`,
+                        body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
+                    }, submission => { 
+                        logger.info('Created new topic: ' + submission.url);
+                        submission.sticky({num: 2});
+                    });
+                } else {
+                    logger.error(`Unable to get show informations from the API call.`); 
+                }
             }
         });
     });
