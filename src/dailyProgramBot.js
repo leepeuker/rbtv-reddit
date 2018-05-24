@@ -15,31 +15,27 @@ let start = (redditAccount, scheduleExpression) => {
     reddit.auth(redditAccount);
 
     schedule.scheduleJob(scheduleExpression, () => {
+
+        let showsString = '';
+        let date = moment().format('DD.MM.YY');
+        let dateDay = moment().format('DD');
+        let dateMonth = moment().format('MM');
+        let dateYear = moment().format('YYYY');
+
         request({
-            url: dailyProgramBot.url,
+            url: dailyProgramBot.url+dateYear+'/'+dateMonth+'/'+dateDay+'.json',
             json: true
         }, (error, response, body) => {
             if (error || response.statusCode !== 200) {
                 logger.error(`Unable to connect to server (${response.request.uri.href}).`); 
             } else {
-
-                let showsString = '';
-                let date = moment().format('DD.MM.YY');
-                let time = moment().format('HH:mm:ss');
-                let calendarWeek = moment().isoWeek();
-                let weekDay = moment().isoWeekday() - 1;
+                showsString = showsToString(body.schedule);
     
-                body.forEach((week) => {
-                    if (week.title == `Woche ${calendarWeek}`) {
-                        showsString = showsToString(week.days[weekDay].shows);
-                    }
-                });
-    
-                if (showsString != '') {
+                if (showsString !== '') {
                     reddit.submitSelftext({
                         subreddit: dailyProgramBot.subreddit,
-                        title: `[${date}] Diskussion zum Programm des Tages (mit Sendeplan)`,
-                        body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese natürlich weiterhin erstellt werden.`
+                        title: `[${date}] Programm des Tages`,
+                        body: `${showsString}----\n\nFalls jemand event- oder sendungsspezifische Threads über diesen hier hinaus für sinnvoll hält, dürfen diese gerne zusätzlich erstellt werden.`
                     }, submission => { 
                         logger.info('Created new topic: ' + submission.url);
                         submission.sticky({num: 2});
@@ -59,20 +55,21 @@ let showsToString = (shows) => {
 
     shows.forEach(show => {
 
-        showsString += `${show.time} - `;
+        show.timeStart = moment(show.timeStart).format('HH:mm');
+        showsString += `${show.timeStart} - `;
 
-        if(show.game !== '') {
-            show.game = ` - ${show.game}`;
+        if(show.topic !== '') {
+            show.topic = ` - ${show.topic}`;
         }
 
-        if (show.isPremiere === true) {
-            showsString += `**${show.title}${show.game}** (Neu)`;
+        if (show.type === 'premiere') {
+            showsString += `**${show.title}${show.topic}** (Neu)`;
 
-        } else if (show.isLive === true) {
-            showsString += `**${show.title}${show.game}** (Live)`;
+        } else if (show.type === 'live') {
+            showsString += `**${show.title}${show.topic}** (Live)`;
 
         } else {
-            showsString += `*${show.title}${show.game}*`;
+            showsString += `*${show.title}${show.topic}*`;
         }
 
         showsString += '\n\n';
