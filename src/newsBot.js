@@ -31,8 +31,10 @@ let start = (redditUser, scheduleExpression) => {
                 } 
                 
                 if (topics[i].pinned === false) {
-                    logger.info(`Set date for latest topic: ${dateLatestTopic}`); 
-                    break;
+                    if (moment(topics[i+1].created_at).isBefore(dateLatestTopic)) {
+                        logger.info(`Set date for latest topic: ${dateLatestTopic}`); 
+                        break;
+                    }
                 }
             }
 
