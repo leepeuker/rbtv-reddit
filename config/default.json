@@ -29,7 +29,7 @@
     "dailyProgramBot": {
         "redditAccount": "accountName",
         "subreddit": "rocketbeans",
-        "url": "http://thegremium.org/~doc/rbtv/wopla/wopla.data.json",
+        "url": "http://api.rbtv.rodney.io/api/1.0/schedule/",
         "schedule": "1 0 * * *"
     }
 }
