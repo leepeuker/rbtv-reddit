@@ -13,7 +13,7 @@ A collection of reddit bots for www.reddit.com/r/rocketbeans
 #### Config tips
 - You can rename a configured reddit account (change 'account_1' to whatever you want, don't forget to replace the 'redditAccount' name in the bots section, too) 
 - You can configure multiple reddit accounts
-- To use a reddit account you need a clientId and the clientSecret. You need to register the app to get these. Go to https://old.reddit.com/prefs/apps/ and select "Create another app...", give it a name, choose the "script" option and provide an 'redirect uri'
+- To use a reddit account you need a clientId and the clientSecret beside the username and password. You need to register the app to get these. Go to https://old.reddit.com/prefs/apps/ and select "Create another app...", give it a name, choose the "script" option and provide an 'redirect uri'
 - You can change the subreddit a bot posts to for testing (change "subreddit" to whatever subreddit you want)
 - The schedule statement follows the standard crontab syntax
 
