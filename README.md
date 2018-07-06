@@ -2,7 +2,7 @@
 A collection of reddit bots for www.reddit.com/r/rocketbeans
 
 #### Installation and configuration:
-*Instructions are for a linux based OS with node and npm installed.*
+*Instructions are for a linux based OS with git, node and npm installed.*
 
 1. Clone Repo: `git clone https://github.com/leepeuker/rbtv-reddit`
 2. Install dependencies:  `cd rbtv-reddit && npm install`
