@@ -1,33 +1,24 @@
 {
     "redditAccounts": {
 
-        "accountName": {
-            "userAgent": "reddit-rbtv",
-            "clientId": "",
-            "clientSecret": "",
-            "username": "",
-            "password": ""
-        },
-
-        "accountName2": {
+        "account_1": {
             "userAgent": "reddit-rbtv",
             "clientId": "",
             "clientSecret": "",
             "username": "",
             "password": ""
         }
-
     },
 
     "newsBot": {
-        "redditAccount": "accountName",
+        "redditAccount": "account_1",
         "subreddit": "rocketbeans",
         "url": "https://forum.rocketbeans.tv/c/news",
         "schedule": "* * * * *"
     },
 
     "dailyProgramBot": {
-        "redditAccount": "accountName",
+        "redditAccount": "account_1",
         "subreddit": "rocketbeans",
         "url": "http://api.rbtv.rodney.io/api/1.0/schedule/",
         "schedule": "1 0 * * *"
