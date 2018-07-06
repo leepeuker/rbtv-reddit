@@ -10,7 +10,5 @@ Instructions are for a linux based OS with node and npm installed.
 
 TODO:
 
-- Error Handling
+- Better Error Handling
 - Tests
-- Adding installion and configuration instructions
-- Refactoring
