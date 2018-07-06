@@ -6,7 +6,7 @@ A collection of reddit bots for www.reddit.com/r/rocketbeans
 
 1. Clone Repo: `git clone https://github.com/leepeuker/rbtv-reddit`
 2. Install dependencies:  `cd rbtv-reddit && npm install`
-3. Configure app in 'conifg/default.json'
+3. Configure app in 'config/default.json'
 
 TODO:
 
