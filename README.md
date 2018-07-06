@@ -8,6 +8,6 @@ A collection of reddit bots for www.reddit.com/r/rocketbeans
 2. Install dependencies:  `cd rbtv-reddit && npm install`
 3. Configure app in 'config/default.json'
 
-#### TODO:
+#### To-do:
 - Better Error Handling
 - Tests
