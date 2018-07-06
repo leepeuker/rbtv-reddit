@@ -27,7 +27,7 @@ let start = (redditAccount, scheduleExpression) => {
             json: true
         }, (error, response, body) => {
             if (error || response.statusCode !== 200) {
-                logger.error(`Unable to connect to server (${response.request.uri.href}).`); 
+                logger.error(`Unable to connect to server.`); 
             } else {
                 showsString = showsToString(body.schedule);
     
